@@ -2,6 +2,7 @@ fx_version "cerulean"
 game "gta5"
 lua54 "yes"
 
+name "filo_antipeek"
 author "filo studios."
 discord "https://discord.gg/bErPEKvRXg"
 description "A simple script that prevents players from shooting behind covers."
@@ -14,4 +15,8 @@ shared_scripts {
 
 client_scripts {
     "client/cl-*.lua"
+}
+
+server_scripts {
+    "server/sv-*.lua"
 }
