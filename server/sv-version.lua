@@ -8,16 +8,6 @@ for i = 0, GetNumResourceMetadata(cache.resource, "dependency") do
 end
 
 local resourceName = GetResourceMetadata(cache.resource, "name", 0)
-local color = "^4"
-local white = "^7"
-local logo = [[
-   __ _ _             _             _ _
-  / _(_) | ___    ___| |_ _   _  __| (_) ___  ___
- | |_| | |/ _ \  / __| __| | | |/ _` | |/ _ \/ __|
- |  _| | | (_) | \__ \ |_| |_| | (_| | | (_) \__ \_
- |_| |_|_|\___/  |___/\__|\__,_|\__,_|_|\___/|___(_)
-]]
-
 local currentVersion = GetResourceMetadata(cache.resource, 'version', 0)
 local githubRepo = "blamefilo/filo_versions"
 
@@ -38,7 +28,13 @@ end
 
 
 local function checkVersion()
-    print(color .. logo .. white)
+    local consolePrintUrl = ("https://raw.githubusercontent.com/%s/refs/heads/main/%s"):format(githubRepo, 'consolePrint')
+    PerformHttpRequest(consolePrintUrl, function(err, responseText, headers)
+        if responseText then
+            print(responseText)
+        end
+    end, 'GET')
+
     local url = ("https://raw.githubusercontent.com/%s/refs/heads/main/%s"):format(githubRepo, cache.resource)
     PerformHttpRequest(url, function(err, responseText, headers)
         if responseText then
@@ -53,8 +49,6 @@ local function checkVersion()
                     if key then
                         data[key] = value
                         lastKey = key
-                    else
-                        lastKey = nil
                     end
                 end
             end
@@ -99,7 +93,11 @@ end
 
 AddEventHandler("onResourceStart", function(resource)
     if resource ~= cache.resource then return end
-    Wait(5000)
+    Wait(math.random(5000, 10000))
+
+    if GlobalState.filo_version then return end
+    GlobalState.filo_version = true
+
     checkVersion()
 end)
 
