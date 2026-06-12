@@ -26,6 +26,5 @@ Modify `config.lua` to suit your server's needs:
 | `Config.NotifyInterval` | How often (in milliseconds) the notification can trigger to avoid spam. |
 | `Config.NotificationText` | The message sent to the player when an obstacle is detected. |
 
-
-## Credits
-Developed by Polaris / Filo.
+## Dependencies
+- [ox_lib](https://github.com/overextended/ox_lib)
