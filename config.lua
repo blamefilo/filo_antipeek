@@ -1,5 +1,6 @@
 Config = {}
 
+Config.Debug = false
 Config.DisplayText = true
 Config.Text = "❌"
 

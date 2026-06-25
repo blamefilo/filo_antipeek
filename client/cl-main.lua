@@ -16,17 +16,24 @@ local function rotationToDirection(rotation)
 end
 
 local function handleRaycast(start, destination, flag, ignore)
-    local handle = StartShapeTestRay(start.x, start.y, start.z, destination.x, destination.y, destination.z, flag, ignore, 1)
+    local handle = StartShapeTestRay(start.x, start.y, start.z, destination.x, destination.y, destination.z, flag, ignore,
+        1)
     local _, hit, endCoords, _, entityHit = GetShapeTestResult(handle)
 
     return hit, endCoords, entityHit
 end
 
 lib.onCache("weapon", function(weapon)
-    if not weapon then hasWeapon = false return end
+    if not weapon then
+        hasWeapon = false
+        return
+    end
 
     local weaponType = GetWeapontypeGroup(weapon)
-    if weaponType == -728555052 or weaponType == -1609580060 then hasWeapon = false return end
+    if weaponType == -728555052 or weaponType == -1609580060 then
+        hasWeapon = false
+        return
+    end
     hasWeapon = true
 
     CreateThread(function()
@@ -49,8 +56,11 @@ lib.onCache("weapon", function(weapon)
                 local hitC, _, coordsC = lib.raycast.fromCamera(1, 4, 1000.0)
 
                 if hitW == 1 and (#(coordsW - coordsC) > 1.0) then
-                    DrawLine(weaponCoord.x, weaponCoord.y, weaponCoord.z, coordsW.x, coordsW.y, coordsW.z, 255, 0, 0, 255)
-                    DrawLine(camCoord.x, camCoord.y, camCoord.z, coordsC.x, coordsC.y, coordsC.z, 0, 0, 255, 255)
+                    if Config.Debug then
+                        DrawLine(weaponCoord.x, weaponCoord.y, weaponCoord.z, coordsW.x, coordsW.y, coordsW.z, 255, 0, 0,
+                            255)
+                        DrawLine(camCoord.x, camCoord.y, camCoord.z, coordsC.x, coordsC.y, coordsC.z, 0, 0, 255, 255)
+                    end
 
                     if displayText then
                         Draw3DText(coordsW.x, coordsW.y, coordsW.z, textIcon)
